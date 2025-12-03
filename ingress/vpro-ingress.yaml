@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vpro-ingress
+  namespace: vprofile
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    # Session affinity for sticky sessions
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/affinity-mode: "persistent"
+    nginx.ingress.kubernetes.io/session-cookie-name: "vprofile-session"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "10800"  # 3 hours
+    nginx.ingress.kubernetes.io/session-cookie-path: "/"
+    # SSL and security headers
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"  # Allow both HTTP and HTTPS
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    # Proxy settings for proper URL generation
+    nginx.ingress.kubernetes.io/proxy-redirect-from: "http://"
+    nginx.ingress.kubernetes.io/proxy-redirect-to: "https://"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - vprofile.local
+    # Using default Ingress self-signed certificate
+  rules:
+  - host: vprofile.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: vproapp-service
+            port:
+              number: 80
