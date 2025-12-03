@@ -24,7 +24,7 @@ spec:
           fsGroup: 999
       containers:
       - name: mysql
-        image: mysql:8.0
+        image: 772683617793.dkr.ecr.us-east-1.amazonaws.com/java-proj:db01
         ports:
         - containerPort: 3306
           name: mysql

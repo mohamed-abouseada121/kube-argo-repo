@@ -30,7 +30,7 @@ spec:
         fsGroup: 1001
       initContainers:
         - name: copy-war
-          image: public.ecr.aws/d5v9o1s2/vprofile-app:v3.1
+          image: 772683617793.dkr.ecr.us-east-1.amazonaws.com/java-proj:app01
           command: ['sh', '-c', 'cp -r /usr/local/tomcat/webapps.orig/* /usr/local/tomcat/webapps/ || cp -r /usr/local/tomcat/webapps/* /mnt/webapps/']
           volumeMounts:
             - name: tomcat-webapps
@@ -43,7 +43,7 @@ spec:
                 - ALL
       containers:
         - name: vproapp
-          image: public.ecr.aws/d5v9o1s2/vprofile-app:v3.1
+          image: 772683617793.dkr.ecr.us-east-1.amazonaws.com/java-proj:app01
           
           imagePullPolicy: Always
           ports:
